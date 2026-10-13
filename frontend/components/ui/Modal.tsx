@@ -8,15 +8,20 @@ interface ModalProps {
   /** id of the element that names the dialog, for screen readers. */
   labelledBy: string;
   children: ReactNode;
-  className?: string;
+  size?: "sm" | "md";
 }
+
+const WIDTHS = {
+  sm: "w-[min(28rem,calc(100vw-1.5rem))]",
+  md: "w-[min(44rem,calc(100vw-1.5rem))]",
+};
 
 /**
  * Thin wrapper around the native <dialog> element, which gives us focus trapping,
  * Escape-to-close and a backdrop for free. Children mount only while open, so forms
  * inside start fresh every time.
  */
-export function Modal({ open, onClose, labelledBy, children, className = "" }: ModalProps) {
+export function Modal({ open, onClose, labelledBy, children, size = "md" }: ModalProps) {
   const ref = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -35,7 +40,7 @@ export function Modal({ open, onClose, labelledBy, children, className = "" }: M
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
-      className={`w-[min(44rem,calc(100vw-1.5rem))] max-h-[calc(100dvh-1.5rem)] overflow-hidden rounded-2xl bg-white text-slate-900 shadow-2xl ${className}`}
+      className={`${WIDTHS[size]} max-h-[calc(100dvh-1.5rem)] overflow-hidden rounded-2xl bg-white text-slate-900 shadow-2xl`}
     >
       {open && children}
     </dialog>

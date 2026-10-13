@@ -6,6 +6,7 @@ import { useLeads } from "@/hooks/useLeads";
 import { useNow } from "@/hooks/useNow";
 import type { Lead, LeadStatus } from "@/lib/types";
 import { Button } from "@/components/ui/Button";
+import { AddLeadDialog } from "./AddLeadDialog";
 import { LeadSection } from "./LeadSection";
 import { LeadTimelineDialog } from "./LeadTimelineDialog";
 import { SearchInput } from "./SearchInput";
@@ -21,6 +22,7 @@ export function LeadsWorkspace() {
   const now = useNow();
 
   const [openLeadId, setOpenLeadId] = useState<number | null>(null);
+  const [addingLead, setAddingLead] = useState(false);
 
   // Patch the row at once, then re-fetch so ordering and filters are re-applied.
   const handleLeadChanged = useCallback(
@@ -46,6 +48,12 @@ export function LeadsWorkspace() {
               : `${leads.length} ${leads.length === 1 ? "lead" : "leads"} · ${dueToday.length} follow-up${dueToday.length === 1 ? "" : "s"} due today`}
           </p>
         </div>
+        <Button onClick={() => setAddingLead(true)}>
+          <svg aria-hidden="true" viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M8 3v10M3 8h10" strokeLinecap="round" />
+          </svg>
+          Add lead
+        </Button>
       </header>
 
       <div className="mt-6 flex flex-col gap-3">
@@ -89,6 +97,15 @@ export function LeadsWorkspace() {
         now={now}
         onClose={() => setOpenLeadId(null)}
         onLeadChanged={handleLeadChanged}
+      />
+
+      <AddLeadDialog
+        open={addingLead}
+        onClose={() => setAddingLead(false)}
+        onCreated={(lead) => {
+          setAddingLead(false);
+          handleLeadChanged(lead);
+        }}
       />
     </main>
   );
