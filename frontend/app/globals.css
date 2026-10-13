@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+
+/* Native <dialog> starts with margins/borders we don't want */
+dialog {
+  margin: auto;
+  padding: 0;
+  border: none;
+}
+
+dialog::backdrop {
+  background: rgb(15 23 42 / 0.45);
+}
