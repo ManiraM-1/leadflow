@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useLeads } from "@/hooks/useLeads";
 import { useNow } from "@/hooks/useNow";
-import type { LeadStatus } from "@/lib/types";
+import type { Lead, LeadStatus } from "@/lib/types";
 import { Button } from "@/components/ui/Button";
 import { LeadSection } from "./LeadSection";
+import { LeadTimelineDialog } from "./LeadTimelineDialog";
 import { SearchInput } from "./SearchInput";
 import { StatusFilter } from "./StatusFilter";
 
@@ -16,10 +17,19 @@ export function LeadsWorkspace() {
   const [search, setSearch] = useState("");
   const query = useDebouncedValue(search, 300);
 
-  const { leads, error, isInitialLoad, isLoading, reload } = useLeads(status, query);
+  const { leads, error, isInitialLoad, isLoading, reload, upsertLead } = useLeads(status, query);
   const now = useNow();
 
-  const [, setOpenLeadId] = useState<number | null>(null);
+  const [openLeadId, setOpenLeadId] = useState<number | null>(null);
+
+  // Patch the row at once, then re-fetch so ordering and filters are re-applied.
+  const handleLeadChanged = useCallback(
+    (lead: Lead) => {
+      upsertLead(lead);
+      reload();
+    },
+    [upsertLead, reload],
+  );
 
   const dueToday = leads.filter((lead) => lead.followUpDueToday);
   const others = leads.filter((lead) => !lead.followUpDueToday);
@@ -73,6 +83,13 @@ export function LeadsWorkspace() {
           </>
         )}
       </div>
+
+      <LeadTimelineDialog
+        leadId={openLeadId}
+        now={now}
+        onClose={() => setOpenLeadId(null)}
+        onLeadChanged={handleLeadChanged}
+      />
     </main>
   );
 }
