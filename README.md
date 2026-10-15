@@ -147,4 +147,4 @@ docker-compose.yml
 
 ## Use of AI
 
-I used Claude (Anthropic) as a pair programmer. I chose the stack and scope; Claude proposed the design and drafted most of the code; I reviewed it, ran it and tested every flow before submitting. Commits written with Claude carry a `Co-Authored-By` trailer.
+I chose the stack and scope; Claude proposed the design and drafted most of the code; I reviewed it, ran it and tested every flow (locally and via Docker Compose) before submitting
