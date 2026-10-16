@@ -4,6 +4,16 @@ A single-screen lead management tool. A sales rep can track leads, log every dis
 
 **Stack:** Spring Boot 3.5 (Java 21) REST API, PostgreSQL (H2 for zero-setup local runs), Next.js 16 + React 19 + Tailwind CSS 4, Docker Compose.
 
+## Screenshots
+
+![Lead list](docs/screenshots/Leadflow-1.png)
+
+![Lead timeline dialog](docs/screenshots/Leadflow-2.png)
+
+![Add lead](docs/screenshots/Leadflow-3.png)
+
+**Video walkthrough:** https://youtu.be/Nj8f7SKb_m8
+
 ## Features
 
 | Requirement | Where |
@@ -147,4 +157,4 @@ docker-compose.yml
 
 ## Use of AI
 
-I chose the stack and scope; Claude proposed the design and drafted most of the code; I reviewed it, ran it and tested every flow (locally and via Docker Compose) before submitting
+As encouraged in the brief, I built this with Claude as an AI coding assistant. I set the requirements, chose the stack and design, reviewed the code, and tested every flow locally and with Docker Compose + PostgreSQL.
